@@ -101,6 +101,10 @@
     border-radius: 99px;
     padding: 3px 8px;
   }
+  .pill.demo {
+    color: #9a3412;
+    background: #ffedd5;
+  }
   h1 {
     margin: 0;
     font-size: 18px;
@@ -487,6 +491,7 @@
   }
   #list button.teach b { color: #9f1239; }
   #list button.try b { color: #1e3a8a; }
+  #list button b.demo { color: #9a3412; margin-left: 6px; }
   #list button.here { background: var(--accent-soft); color: var(--accent); }
   .cap {
     margin: 8px 0 2px;
@@ -690,6 +695,7 @@
 <header>
   <span class="brand" id="brand">JM11</span>
   <span class="pill" id="pill">Teach</span>
+  <span class="pill demo" id="demo" hidden>Demo</span>
   <h1 id="title"></h1>
   <span class="progress" id="progress"></span>
   <div class="track" aria-hidden="true"><i id="track"></i></div>
@@ -735,7 +741,7 @@
 <button id="zoomFit" type="button">Fit</button>
 <div id="list"></div>
 <script src="katex/katex.min.js"></script>
-<script src="pages.js?v=74"></script>
+<script src="pages.js?v=75"></script>
 <script>
 const COLORS = ["#111111", "#d00000", "#1565c0", "#0b7a32", "#ef6c00", "#6a1b9a", "#c2185b", "#00838f", "#795548", "#f9a825"];
 let idx = 0, shown = 0, tool = "nav", color = "#d00000";
@@ -829,6 +835,7 @@ function mount() {
   document.documentElement.style.setProperty("--fig", fig);
   document.getElementById("brand").textContent = p.book;
   document.getElementById("pill").textContent = p.mode === "try" ? "Try" : "Teach";
+  document.getElementById("demo").hidden = !p.demo;
   document.getElementById("title").textContent = p.title;
   document.getElementById("jump").value = String(idx + 1);
   topEl.innerHTML = p.top || "";
@@ -1165,7 +1172,8 @@ document.getElementById("pages").onclick = () => {
 function pageButton(p, i) {
   const kind = p.mode === "try" ? "try" : "teach";
   const mark = kind === "try" ? "Try" : "Teach";
-  return `<button type="button" data-go="${i}" class="${kind}${i === idx ? " here" : ""}"><b>${mark}</b>${i + 1}. ${p.title}</button>`;
+  const demo = p.demo ? `<b class="demo">Demo</b>` : "";
+  return `<button type="button" data-go="${i}" class="${kind}${i === idx ? " here" : ""}"><b>${mark}</b>${demo}${i + 1}. ${p.title}</button>`;
 }
 function buildList() {
   let html = "";
